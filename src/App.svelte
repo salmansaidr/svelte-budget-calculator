@@ -6,10 +6,13 @@
 	import expensesData from './expenses';
 	// Variables
 	let expenses = [...expensesData];
-	console.log(expenses)
+	// Functions
+	const removeExpense = id => {
+		expenses = expenses.filter(item => item.id !== id);
+	};
 </script>
 
 <Navbar />
 <main class="content">
-	<ExpensesList {expenses} />
+	<ExpensesList {expenses} {removeExpense} />
 </main>
