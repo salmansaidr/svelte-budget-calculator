@@ -1,7 +1,11 @@
 <script>
+	// library
+	import { setContext } from 'svelte';
 	// Component
 	import Navbar from './Navbar.svelte';
 	import ExpensesList from './ExpensesList.svelte';
+	import Totals from './Totals.svelte';
+	import ExpenseForm from './ExpenseForm.svelte';
 	// Data
 	import expensesData from './expenses';
 	// Variables
@@ -10,9 +14,19 @@
 	const removeExpense = id => {
 		expenses = expenses.filter(item => item.id !== id);
 	};
+	const clearExpenses = () => {
+		expenses = [];
+	};
+	setContext('removeExpense', removeExpense);
+	$: total = expenses.reduce((acc, curr) => {
+		return (acc += curr.amount);
+		} ,0);
 </script>
 
 <Navbar />
 <main class="content">
+	<ExpenseForm />
+	<Totals title="total expenses" {total} />
 	<ExpensesList {expenses} {removeExpense} />
+	<button type="button" class="btn btn-primary btn-block" on:click={clearExpenses}>clear expenses</button>
 </main>
