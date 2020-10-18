@@ -10,6 +10,10 @@
 	import expensesData from './expenses';
 	// Variables
 	let expenses = [...expensesData];
+	// set editing variables
+	let setName = "";
+	let setAmount = null;
+	let setId = null;
 	// Functions
 	const removeExpense = id => {
 		expenses = expenses.filter(item => item.id !== id);
@@ -23,7 +27,16 @@
 		expenses = [expense, ...expenses];
 	}
 
+	function setModifiedExpense(id) {
+		let expense = expenses.find(item => item.id === id);
+		console.log(expense);
+		setId = expenses.id;
+		setName = expenses.name;
+		setAmount = expenses.amount;
+	}
+
 	setContext('removeExpense', removeExpense);
+	setContext('modify', setModifiedExpense);
 	$: total = expenses.reduce((acc, curr) => {
 		return (acc += curr.amount);
 		} ,0);
