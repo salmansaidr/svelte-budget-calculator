@@ -29,14 +29,18 @@
 
 	function setModifiedExpense(id) {
 		let expense = expenses.find(item => item.id === id);
-		console.log(expense);
-		setId = expenses.id;
-		setName = expenses.name;
-		setAmount = expenses.amount;
+		setId = expense.id;
+		setName = expense.name;
+		setAmount = expense.amount;
+	}
+
+	function editExpense({name, amount}) {
+		console.log({name, amount});
 	}
 
 	setContext('removeExpense', removeExpense);
 	setContext('modify', setModifiedExpense);
+	$: isEditing = setId ? true : false;
 	$: total = expenses.reduce((acc, curr) => {
 		return (acc += curr.amount);
 		} ,0);
@@ -44,7 +48,7 @@
 
 <Navbar />
 <main class="content">
-	<ExpenseForm {addExpense} />
+	<ExpenseForm {addExpense} name={setName} amount={setAmount} {isEditing} {editExpense} />
 	<Totals title="total expenses" {total} />
 	<ExpensesList {expenses} {removeExpense} />
 	<button type="button" class="btn btn-primary btn-block" on:click={clearExpenses}>clear expenses</button>
